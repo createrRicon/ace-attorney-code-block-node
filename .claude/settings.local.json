@@ -1,0 +1,31 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm create:*)",
+      "Bash(npm install:*)",
+      "Bash(npm run:*)",
+      "mcp__figma__get_design_context",
+      "mcp__figma__get_screenshot",
+      "Bash(curl:*)",
+      "Bash(npx tsc:*)",
+      "mcp__figma__whoami",
+      "mcp__figma__generate_figma_design",
+      "Bash(start:*)",
+      "Bash(rm:*)",
+      "Bash(mv:*)",
+      "Bash(mkdir:*)",
+      "Bash(grep:*)",
+      "Bash(sed:*)",
+      "Bash(pkill:*)",
+      "Bash(ls:*)",
+      "Bash(bunx playwright:*)",
+      "Bash(\"C:/Users/1/.claude/skills/gstack/node_modules/.bin/playwright\" install:*)",
+      "Bash(node:*)",
+      "Bash(bunx:*)",
+      "Bash(bun:*)",
+      "Bash(/c/Users/1/.bun/bin/bun x:*)",
+      "Bash(/c/Users/1/.bun/bin/bun:*)",
+      "Bash(cmd:*)"
+    ]
+  }
+}

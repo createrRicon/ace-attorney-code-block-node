@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>图片测试</title>
+</head>
+<body>
+    <h1>图片路径测试</h1>
+
+    <h2>角色立绘测试</h2>
+    <img src="/assets/characters/likang-normal.png" alt="力康-默认" style="width: 200px; border: 1px solid red;">
+    <img src="/assets/characters/snow-normal.png" alt="Snow-默认" style="width: 200px; border: 1px solid blue;">
+    <img src="/assets/characters/ll-normal.png" alt="LL-默认" style="width: 200px; border: 1px solid green;">
+
+    <h2>背景图片测试</h2>
+    <img src="/assets/backgrounds/courtroom.png" alt="法庭背景" style="width: 400px; border: 1px solid purple;">
+
+    <h2>调试信息</h2>
+    <p>当前路径: <span id="currentPath"></span></p>
+    <p>测试图片加载: <span id="loadStatus"></span></p>
+
+    <script>
+        document.getElementById('currentPath').textContent = window.location.href;
+
+        // 测试图片加载
+        const testImg = new Image();
+        testImg.onload = () => {
+            document.getElementById('loadStatus').textContent = '✓ 图片加载成功';
+        };
+        testImg.onerror = () => {
+            document.getElementById('loadStatus').textContent = '✗ 图片加载失败';
+        };
+        testImg.src = '/assets/characters/likang-normal.png';
+    </script>
+</body>
+</html>

@@ -1,0 +1,282 @@
+import { SceneData, DialogueLine } from '../../types'
+
+/**
+ * 场景1：AI Agent 对话界面设计 - 完整评审流程
+ *
+ * 项目流程：
+ * 1. 方案初步构思 - 产品经理和我商量方案
+ * 2. 评审环节 - 前端同事提出异议
+ * 3. 调研与取证 - 分析竞品和用户情况，收集证据
+ * 4. 最终胜出 - 带着新方案再次评审，获得通过
+ */
+
+const dialogues: Record<string, DialogueLine> = {
+  // ===== 第一阶段：方案初步构思 =====
+  start: {
+    id: 'start',
+    characterId: 'player',
+    text: '（这是一个关于 AI agent 对话界面设计项目的完整故事。让我从头说起...）',
+    expression: 'thinking',
+    nextLineId: 'scene1_start',
+  },
+
+  scene1_start: {
+    id: 'scene1_start',
+    characterId: 'player',
+    text: '那天，产品经理找到我，说我们需要为无代码平台设计一个 AI agent 的对话界面。',
+    expression: 'thinking',
+    nextLineId: 'pm_intro',
+  },
+
+  pm_intro: {
+    id: 'pm_intro',
+    characterId: 'player',
+    text: '他说：「用户希望能够通过简单的对话来配置和使用 AI agent，而不是复杂的表单和配置。」',
+    expression: 'neutral',
+    nextLineId: 'my_response',
+  },
+
+  my_response: {
+    id: 'my_response',
+    characterId: 'player',
+    text: '我觉得这个需求很有意思！基于 PRD 和现有功能，我设计了一个基于对话流的配置界面。',
+    expression: 'confident',
+    nextLineId: 'show_design',
+  },
+
+  show_design: {
+    id: 'show_design',
+    characterId: 'player',
+    text: '设计要点是：将复杂的技术参数转化为自然语言问答，用户只需要回答问题就能完成配置。',
+    expression: 'confident',
+    nextLineId: 'phase2_intro',
+  },
+
+  // ===== 第二阶段：评审环节（前端提出异议）=====
+  phase2_intro: {
+    id: 'phase2_intro',
+    characterId: 'player',
+    text: '（设计完成后，我们进入了评审环节。但没想到...）',
+    expression: 'awkward',
+    nextLineId: 'frontend_objection',
+  },
+
+  frontend_objection: {
+    id: 'frontend_objection',
+    characterId: 'interviewer',
+    text: '等一下，这个方案有问题！',
+    expression: 'angry',
+    nextLineId: 'frontend_concern_1',
+  },
+
+  frontend_concern_1: {
+    id: 'frontend_concern_1',
+    characterId: 'interviewer',
+    text: '你说「自然语言问答」，但用户根本不知道该问什么！开放式对话会让用户更困惑。',
+    expression: 'angry',
+    isTestimony: true,
+    contradictionId: 'contradiction_1',
+    nextLineId: 'frontend_concern_2',
+  },
+
+  frontend_concern_2: {
+    id: 'frontend_concern_2',
+    characterId: 'interviewer',
+    text: '而且，完全对话式的交互，用户怎么知道当前配置到哪一步了？进度不明确。',
+    expression: 'angry',
+    isTestimony: true,
+    contradictionId: 'contradiction_2',
+    nextLineId: 'player_reaction',
+  },
+
+  player_reaction: {
+    id: 'player_reaction',
+    characterId: 'player',
+    text: '（被质疑了... 但他说得也有道理。😅）',
+    expression: 'awkward',
+    nextLineId: 'player_thinking',
+  },
+
+  player_thinking: {
+    id: 'player_thinking',
+    characterId: 'player',
+    text: '让我再想想... 也许我们需要重新审视这个方案。',
+    expression: 'thinking',
+    nextLineId: 'phase3_intro',
+  },
+
+  // ===== 第三阶段：调研与取证 =====
+  phase3_intro: {
+    id: 'phase3_intro',
+    characterId: 'player',
+    text: '（评审结束后，我和产品经理决定进行深入调研。我们需要证据来支持新的方案。）',
+    expression: 'thinking',
+    nextLineId: 'research_1',
+  },
+
+  research_1: {
+    id: 'research_1',
+    characterId: 'player',
+    text: '我们分析了竞品：ChatGPT、Claude、以及各种低代码平台的 AI 配置界面。',
+    expression: 'neutral',
+    nextLineId: 'research_2',
+  },
+
+  research_2: {
+    id: 'research_2',
+    characterId: 'player',
+    text: '发现一个关键问题：纯对话式确实容易让用户迷失。但纯表单又太复杂。',
+    expression: 'thinking',
+    nextLineId: 'research_3',
+  },
+
+  research_3: {
+    id: 'research_3',
+    characterId: 'player',
+    text: '最佳实践是：**引导式对话 + 可视化进度 + 结构化选项**。',
+    expression: 'confident',
+    nextLineId: 'collect_evidence_1',
+  },
+
+  collect_evidence_1: {
+    id: 'collect_evidence_1',
+    characterId: 'player',
+    text: '我收集了三个关键证据来支持新方案：',
+    expression: 'confident',
+    nextLineId: 'evidence_list',
+  },
+
+  evidence_list: {
+    id: 'evidence_list',
+    characterId: 'player',
+    text: '📁 竞品分析报告、📁 用户调研数据、📁 原型设计方案',
+    expression: 'confident',
+    choices: [
+      {
+        text: '查看竞品分析报告',
+        nextLineId: 'evidence_competitor',
+      },
+      {
+        text: '查看用户调研数据',
+        nextLineId: 'evidence_user',
+      },
+      {
+        text: '查看原型设计方案',
+        nextLineId: 'evidence_prototype',
+      },
+    ],
+  },
+
+  // 证据详情
+  evidence_competitor: {
+    id: 'evidence_competitor',
+    characterId: 'player',
+    text: '【竞品分析】市面上成功的产品都采用了「渐进式引导」：先让用户选场景，再问具体问题。',
+    expression: 'confident',
+    nextLineId: 'evidence_list',
+  },
+
+  evidence_user: {
+    id: 'evidence_user',
+    characterId: 'player',
+    text: '【用户调研】78%的用户表示，他们希望有「明确的指引」而不是完全自由的对话。',
+    expression: 'confident',
+    nextLineId: 'evidence_list',
+  },
+
+  evidence_prototype: {
+    id: 'evidence_prototype',
+    characterId: 'player',
+    text: '【新方案】结合对话流和可视化配置，左侧显示对话，右侧实时预览配置结果。',
+    expression: 'confident',
+    nextLineId: 'phase4_intro',
+  },
+
+  // ===== 第四阶段：最终胜出 =====
+  phase4_intro: {
+    id: 'phase4_intro',
+    characterId: 'player',
+    text: '（带着新的方案和证据，我们再次进入了评审会议...）',
+    expression: 'confident',
+    nextLineId: 'rematch_start',
+  },
+
+  rematch_start: {
+    id: 'rematch_start',
+    characterId: 'interviewer',
+    text: '哦？你们又来了？让我看看新方案...',
+    expression: 'neutral',
+    nextLineId: 'present_new_solution',
+  },
+
+  present_new_solution: {
+    id: 'present_new_solution',
+    characterId: 'player',
+    text: '我们重新设计了整个交互流程。首先，用户选择使用场景，而不是直接开始对话。',
+    expression: 'confident',
+    nextLineId: 'explain_solution_1',
+  },
+
+  explain_solution_1: {
+    id: 'explain_solution_1',
+    characterId: 'player',
+    text: '然后，系统根据场景提供**结构化的选项**，而不是开放式问答。',
+    expression: 'confident',
+    nextLineId: 'explain_solution_2',
+  },
+
+  explain_solution_2: {
+    id: 'explain_solution_2',
+    characterId: 'player',
+    text: '最重要的是，右侧有**实时配置预览**，用户可以清楚地看到当前的配置状态。',
+    expression: 'confident',
+    nextLineId: 'frontend_impressed',
+  },
+
+  frontend_impressed: {
+    id: 'frontend_impressed',
+    characterId: 'interviewer',
+    text: '这个... 确实比之前的方案好多了！有引导、有结构、有反馈。',
+    expression: 'surprised',
+    nextLineId: 'frontend_approve',
+  },
+
+  frontend_approve: {
+    id: 'frontend_approve',
+    characterId: 'interviewer',
+    text: '我同意这个方案！既保留了对话的便利性，又解决了用户的困惑问题。',
+    expression: 'happy',
+    nextLineId: 'victory',
+  },
+
+  victory: {
+    id: 'victory',
+    characterId: 'player',
+    text: '太好了！通过这次深入调研和迭代，我们最终找到了平衡点。',
+    expression: 'happy',
+    nextLineId: 'summary',
+  },
+
+  summary: {
+    id: 'summary',
+    characterId: 'player',
+    text: '这个项目让我明白：好的设计不是一次性的灵感，而是通过不断的质疑、调研、迭代来完善的。',
+    expression: 'confident',
+    nextLineId: 'the_end',
+  },
+
+  the_end: {
+    id: 'the_end',
+    characterId: 'player',
+    text: '【场景1 完成 - AI Agent 对话界面设计】\n\n✅ 通过展示设计思维和问题解决能力，成功说服团队采纳新方案。',
+    expression: 'happy',
+  },
+}
+
+export const scene1Data: SceneData = {
+  id: 'scene1',
+  title: '场景1：AI Agent 对话界面设计',
+  background: 'meeting-room',
+  dialogues,
+  startLineId: 'start',
+}
