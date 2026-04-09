@@ -1,0 +1,25 @@
+.vercel
+
+# Dependencies & build
+node_modules/
+dist/
+*.local
+
+# Vite
+.vite/
+
+# Env & secrets
+.env
+.env.*
+!.env.example
+
+# OS / IDE
+.DS_Store
+Thumbs.db
+
+# Claude Code local overrides (may contain machine-specific paths)
+.claude/settings.local.json
+
+# Nested repositories (tracked separately; remove their .git to vendor into this repo)
+/claude-telegram-bot-bridge/
+/telegram_bot/
