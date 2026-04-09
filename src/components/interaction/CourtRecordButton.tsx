@@ -11,12 +11,14 @@ export const CourtRecordButton: React.FC = () => {
 
   const unlockedCount = evidences.filter((e) => e.unlocked).length
 
+  // 未获得任何证物前，不显示按钮
+  if (unlockedCount === 0) return null
+
   return (
     <motion.button
       onClick={toggleSelector}
-      className="relative px-[25.714px] py-[13.714px] bg-gradient-to-r from-[#16213e] to-[#1a1a2e] border-[1.714px] border-solid border-[#ffd700] rounded-[8px] shadow-[0px_10px_15px_0px_rgba(0,0,0,0.1),0px_4px_6px_0px_rgba(0,0,0,0.1)] transition-all duration-300 z-40"
+      className="relative z-40 rounded-[8px] border-[1.714px] border-solid border-[#ffd700] bg-gradient-to-r from-[#16213e] to-[#1a1a2e] px-[25.714px] py-[13.714px] shadow-[0px_10px_15px_0px_rgba(0,0,0,0.1),0px_4px_6px_0px_rgba(0,0,0,0.1)]"
       style={{ width: '147.205px', height: '55.429px' }}
-      whileHover={{ scale: 1.05 }}
       whileTap={{ scale: 0.95 }}
     >
       <div className="flex items-center gap-[8px] h-[28px]">

@@ -1,5 +1,5 @@
 import { DialogueLine, SceneData, InteractionType } from '../types'
-import { useGameStore, useDialogueStore } from '../store'
+import { useGameStore, useDialogueStore, useEvidenceStore } from '../store'
 
 /**
  * 对话引擎类
@@ -47,6 +47,13 @@ export class DialogueEngine {
     useDialogueStore.getState().addToHistory(line)
     useDialogueStore.getState().setShowFullText(false)
     useDialogueStore.getState().setVisible(true)
+
+    // 解锁对话行级别的证据
+    if (line.unlockEvidence) {
+      line.unlockEvidence.forEach((id) => {
+        useEvidenceStore.getState().unlockEvidence(id)
+      })
+    }
   }
 
   /**

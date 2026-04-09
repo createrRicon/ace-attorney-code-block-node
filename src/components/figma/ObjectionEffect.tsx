@@ -15,7 +15,7 @@ interface ObjectionEffectProps {
  */
 export const ObjectionEffect: React.FC<ObjectionEffectProps> = ({
   trigger,
-  text = '异议！',
+  text: _text = '异议！',
   onComplete,
   className = '',
 }) => {
@@ -51,7 +51,7 @@ export const ObjectionEffect: React.FC<ObjectionEffectProps> = ({
     <AnimatePresence>
       {phase !== 'idle' && (
         <motion.div
-          className={`fixed inset-0 flex flex-col items-center justify-center z-50 pointer-events-none ${className}`}
+          className={`absolute inset-0 flex flex-col items-center justify-center z-[80] pointer-events-none ${className}`}
           initial={{ opacity: 0 }}
           animate={{ opacity: phase === 'fading' ? 0 : 1 }}
           exit={{ opacity: 0 }}

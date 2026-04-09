@@ -2,10 +2,14 @@ import React from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useDialogueStore } from '../../store'
 import { useGameStore } from '../../store'
+import { useEvidenceStore } from '../../store'
 import { CHARACTERS } from '../../data/characters/characterConfig'
+import type { Evidence as StoreEvidence } from '../../types'
+import { EvidenceCard, type Evidence as FigmaEvidence } from './EvidenceCard'
 
 interface CourtDialogueBoxProps {
   onContinue: () => void
+  onReturnToStart: () => void
 }
 
 /**
@@ -19,9 +23,11 @@ interface CourtDialogueBoxProps {
  */
 export const CourtDialogueBox: React.FC<CourtDialogueBoxProps> = ({
   onContinue,
+  onReturnToStart,
 }) => {
   const { currentLine } = useDialogueStore()
   const { makeChoice } = useGameStore()
+  const { evidences } = useEvidenceStore()
 
   // 判断当前行是否有选项
   const hasChoices = currentLine?.choices && currentLine.choices.length > 0
@@ -53,6 +59,7 @@ export const CourtDialogueBox: React.FC<CourtDialogueBoxProps> = ({
 
   // 旁白不显示对话框
   const isNarrator = currentLine.characterId === 'narrator'
+  const isFinalNarrator = isNarrator && !currentLine.nextLineId
 
   // 获取角色信息
   const getCharacterInfo = () => {
@@ -83,6 +90,28 @@ export const CourtDialogueBox: React.FC<CourtDialogueBoxProps> = ({
 
   // 旁白使用全屏文字效果
   if (isNarrator) {
+    const normalizeEvidenceTitle = (title: string) =>
+      title.replace(/[\ud83d\udcd6\ud83d\udd16]/gu, '').replace(/^[“"']+|[”"']+$/g, '').trim()
+
+    const convertToFigmaEvidence = (evidence: StoreEvidence): FigmaEvidence => {
+      const normalizeLine = (line: string) =>
+        line.replace(/^[“"']+|[”"']+$/g, '').trim()
+
+      const portraitUrl = evidence.portraitCharacterId
+        ? `/assets/characters/${evidence.portraitCharacterId}-normal.png`
+        : evidence.imageUrl
+
+      return {
+        id: evidence.id,
+        title: evidence.name,
+        description: typeof evidence.description === 'string'
+          ? [normalizeLine(evidence.description)]
+          : evidence.description.map(normalizeLine),
+        thumbnail: evidence.thumbnail,
+        portraitUrl,
+      }
+    }
+
     // 处理带星号的文字 - 将 *文字* 渲染为红色，完全删除星号
     const renderTextWithHighlights = (text: string) => {
       // 匹配 **文字** 或 *文字* 格式
@@ -97,6 +126,9 @@ export const CourtDialogueBox: React.FC<CourtDialogueBoxProps> = ({
     }
 
     const handleNarratorClick = (e: React.MouseEvent) => {
+      if (isFinalNarrator) {
+        return
+      }
       console.log('[NARRATOR CLICK] Clicked!', {
         lineId: currentLine.id,
         nextLineId: currentLine.nextLineId,
@@ -121,6 +153,18 @@ export const CourtDialogueBox: React.FC<CourtDialogueBoxProps> = ({
 
     if (isEvidenceNarrator) {
       const { title, description } = parseEvidenceText(currentLine.text)
+      const normalizedTitle = normalizeEvidenceTitle(title)
+      const matchedEvidence = evidences.find(
+        (evidence) => normalizeEvidenceTitle(evidence.name) === normalizedTitle
+      )
+      const evidenceCardData: FigmaEvidence = matchedEvidence
+        ? convertToFigmaEvidence(matchedEvidence)
+        : {
+            id: `narrator-evidence-${normalizedTitle}`,
+            title: normalizedTitle || '证据',
+            description: description ? [description] : [],
+            thumbnail: '/assets/figma/item.png',
+          }
 
       return (
         <div
@@ -151,57 +195,21 @@ export const CourtDialogueBox: React.FC<CourtDialogueBoxProps> = ({
             获得证物
           </p>
 
-          {/* 证据卡片 */}
-          <div style={{ pointerEvents: 'none', position: 'relative', width: '640px', height: '300px' }}>
-            {/* item.png 作为卡片背景 */}
-            <img
-              src="/assets/figma/item.png"
-              alt="证据卡片"
-              style={{
-                position: 'absolute',
-                inset: 0,
-                width: '100%',
-                height: '100%',
-                objectFit: 'fill'
-              }}
-            />
-            {/* 标题文字 - 黄色标题区域 */}
-            <div style={{
-              position: 'absolute',
-              top: '13%',
-              left: '52%',
-              right: '6%',
-            }}>
-              <p style={{
-                color: '#333',
-                fontSize: '22px',
-                fontWeight: 'bold',
-                lineHeight: 1.3,
-              }}>
-                {title}
-              </p>
-            </div>
-            {/* 描述文字 - 虚线区域 */}
-            <div style={{
-              position: 'absolute',
-              top: '35%',
-              left: '52%',
-              right: '6%',
-              bottom: '12%',
-            }}>
-              <p style={{
-                color: '#555',
-                fontSize: '15px',
-                lineHeight: 2.0,
-              }}>
-                {description}
-              </p>
-            </div>
+          {/* 证据卡片：复用证物弹窗同款样式 */}
+          <div style={{ pointerEvents: 'none' }}>
+            <EvidenceCard evidence={evidenceCardData} />
           </div>
 
           {/* 点击继续 */}
-          <p className="text-accent-gold text-sm animate-pulse" style={{ marginTop: '20px', pointerEvents: 'none' }}>
-            ▼ 点击继续
+          <p
+            className="text-accent-gold text-base font-bold animate-pulse"
+            style={{ marginTop: '24px', cursor: 'pointer' }}
+            onClick={(e) => {
+              e.stopPropagation()
+              onContinue()
+            }}
+          >
+            ▼ 点击或按空格继续
           </p>
         </div>
       )
@@ -217,17 +225,11 @@ export const CourtDialogueBox: React.FC<CourtDialogueBoxProps> = ({
           alignItems: 'center',
           justifyContent: 'center',
           backgroundColor: 'rgba(0, 0, 0, 0.8)',
-          cursor: 'pointer',
+          cursor: isFinalNarrator ? 'default' : 'pointer',
           zIndex: 50,
           pointerEvents: 'auto'
         }}
         onClick={handleNarratorClick}
-        onMouseDown={(e) => {
-          console.log('[NARRATOR] onMouseDown', {
-            lineId: currentLine.id,
-            target: (e.target as HTMLElement).tagName
-          })
-        }}
       >
         <div style={{ pointerEvents: 'none', textAlign: 'center', maxWidth: '800px', padding: '20px' }}>
           <p
@@ -236,9 +238,24 @@ export const CourtDialogueBox: React.FC<CourtDialogueBoxProps> = ({
           >
             {renderTextWithHighlights(currentLine.text)}
           </p>
-          <p className="text-accent-gold text-sm animate-pulse">
-            ▼ 点击继续
-          </p>
+          {isFinalNarrator ? (
+            <motion.button
+              type="button"
+              onClick={(e) => {
+                e.stopPropagation()
+                onReturnToStart()
+              }}
+              whileHover={{ scale: 1.03 }}
+              whileTap={{ scale: 0.98 }}
+              className="pointer-events-auto mt-6 inline-flex items-center justify-center rounded-md border border-[#FFB800] bg-[#1B2340]/80 px-8 py-3 court-dialogue-text text-[18px] font-bold text-[#FFB800] shadow-[0_0_18px_rgba(255,184,0,0.2)] transition-colors hover:bg-[#2A3660]"
+            >
+              重头游玩
+            </motion.button>
+          ) : (
+            <p className="text-accent-gold text-sm animate-pulse">
+              ▼ 点击或按空格继续
+            </p>
+          )}
         </div>
       </div>
     )
@@ -322,13 +339,22 @@ export const CourtDialogueBox: React.FC<CourtDialogueBoxProps> = ({
 
           {/* 继续提示 - 有选项时不显示 */}
           {!hasChoices && (
-            <motion.div
-              className="absolute bottom-[12px] right-[24px] text-accent-gold text-4xl font-bold"
-              animate={{ opacity: [0.7, 1, 0.7] }}
-              transition={{ duration: 0.8, repeat: Infinity }}
-            >
-              ▼
-            </motion.div>
+            <div className="absolute bottom-[12px] right-[24px] flex flex-col items-center gap-1">
+              <motion.div
+                className="text-accent-gold text-[19px] whitespace-nowrap"
+                animate={{ opacity: [0.7, 1, 0.7] }}
+                transition={{ duration: 0.8, repeat: Infinity }}
+              >
+                点击或按空格继续
+              </motion.div>
+              <motion.div
+                className="text-accent-gold text-4xl font-bold cursor-pointer"
+                animate={{ opacity: [0.7, 1, 0.7] }}
+                transition={{ duration: 0.8, repeat: Infinity }}
+              >
+                ▼
+              </motion.div>
+            </div>
           )}
         </div>
 
@@ -338,7 +364,7 @@ export const CourtDialogueBox: React.FC<CourtDialogueBoxProps> = ({
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.3 }}
-            className="absolute right-[8%] flex flex-col gap-4"
+            className="absolute right-[8%] flex flex-col gap-6"
             style={{
               bottom: 'calc(218px + 40px)',
               zIndex: 20
@@ -371,8 +397,8 @@ export const CourtDialogueBox: React.FC<CourtDialogueBoxProps> = ({
                   background: 'none',
                   border: 'none',
                   padding: 0,
-                  width: '340px',
-                  height: '56px',
+                  width: '510px',
+                  height: '84px',
                 }}
               >
                 {/* 默认状态背景 */}

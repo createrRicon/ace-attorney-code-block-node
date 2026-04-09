@@ -17,7 +17,7 @@ export const scene1Evidences: Evidence[] = [
     type: 'document',
     thumbnail: '/assets/figma/item.png',
     contradictionId: 'contradiction_1',
-    unlocked: true,
+    unlocked: false,
   },
   {
     id: 'user-research',
@@ -31,7 +31,7 @@ export const scene1Evidences: Evidence[] = [
     type: 'data',
     thumbnail: '/assets/figma/item.png',
     contradictionId: 'contradiction_2',
-    unlocked: true,
+    unlocked: false,
   },
   {
     id: 'prototype-design',
@@ -45,13 +45,45 @@ export const scene1Evidences: Evidence[] = [
     type: 'prototype',
     thumbnail: '/assets/figma/item.png',
     contradictionId: 'contradiction_3',
-    unlocked: true,
+    unlocked: false,
   },
+]
+
+/**
+ * 第三幕证词
+ */
+export const act3Evidences: Evidence[] = [
+  {
+    id: 'wang-testimony',
+    name: '小王的证词',
+    description: ['"我不写代码，主要是看结果、配回填，让数据进到表单里。真要改代码，我会找技术同事帮忙。"'],
+    type: 'document',
+    thumbnail: '/assets/figma/item.png',
+    portraitCharacterId: 'wang',
+    unlocked: false,
+  },
+  {
+    id: 'chen-testimony',
+    name: '老陈的证词',
+    description: ['"需要一边写代码一边看测试结果，线性流程来回切换太折腾。"'],
+    type: 'document',
+    thumbnail: '/assets/figma/item.png',
+    portraitCharacterId: 'chen',
+    unlocked: false,
+  },
+]
+
+/**
+ * 所有证据合集
+ */
+export const allEvidences: Evidence[] = [
+  ...scene1Evidences,
+  ...act3Evidences,
 ]
 
 /**
  * 获取证据 by ID
  */
 export const getEvidenceById = (id: string): Evidence | undefined => {
-  return scene1Evidences.find((e) => e.id === id)
+  return allEvidences.find((e) => e.id === id)
 }

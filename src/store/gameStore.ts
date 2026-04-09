@@ -15,6 +15,7 @@ interface GameStore extends GameState {
   next: () => boolean
   makeChoice: (choiceIndex: number) => boolean
   reset: () => void
+  restart: () => boolean
 }
 
 const initialState: GameState = {
@@ -111,4 +112,12 @@ export const useGameStore = create<GameStore>((set, get) => ({
   },
 
   reset: () => set(initialState),
+
+  restart: () => {
+    // 重置所有状态
+    set(initialState)
+    // 清空对话历史
+    useDialogueStore.getState().clearHistory()
+    return true
+  },
 }))

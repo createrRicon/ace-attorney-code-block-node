@@ -18,24 +18,16 @@ const dialogues: Record<string, DialogueLine> = {
   'act2_01': {
     id: 'act2_01',
     characterId: 'likang',
-    text: '好的。代码块节点的核心流程分为三步：第一步，编写代码并绑定输入字段；第二步，测试代码并查看运行结果；第三步，配置代码输出映射到下游节点。',
+    text: '好的。代码块节点的核心流程分三步：编写代码并绑定输入、测试并查看结果、配置输出映射。整体是**1-2-3的线性流程**，和现有节点交互一致。',
     expression: 'serious',
-    nextLineId: 'act2_01b'
-  },
-
-  'act2_01b': {
-    id: 'act2_01b',
-    characterId: 'likang',
-    text: '整体是一个**1-2-3的线性流程**，用户按步骤往下走就可以了。',
-    expression: 'confident',
     nextLineId: 'act2_02'
   },
 
   'act2_02': {
     id: 'act2_02',
     characterId: 'likang',
-    text: '这个模式和我们线上现有的其他节点配置交互是一致的，用户不需要学习新的操作习惯。',
-    expression: 'serious',
+    text: '用户不需要学习新的操作习惯，按步骤往下走就可以了。',
+    expression: 'confident',
     nextLineId: 'act2_03'
   },
 
@@ -160,16 +152,8 @@ const dialogues: Record<string, DialogueLine> = {
   'act2_17': {
     id: 'act2_17',
     characterId: 'll',
-    text: '你那个1-2-3线性流程，每改一行代码就要从头走到尾，**来来回回**——',
+    text: '你那个1-2-3线性流程，每改一行代码就要从头走到尾，来来回回——这不是设计，这是**折磨**。',
     expression: 'angry',
-    nextLineId: 'act2_18'
-  },
-
-  'act2_18': {
-    id: 'act2_18',
-    characterId: 'll',
-    text: '这不是设计，这是**折磨**。',
-    expression: 'serious',
     nextLineId: 'act2_19'
   },
 

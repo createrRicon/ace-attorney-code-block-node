@@ -1,0 +1,55 @@
+---
+description: Core project rules for React + TypeScript + Vite workflow
+alwaysApply: true
+---
+
+# Ace Attorney Web Project Rules
+
+## Stack and Architecture
+- TypeScript + React only, no other frameworks.
+- Follow existing architecture: `src/engine`, `src/store`, `src/components`, `src/data`, `src/types`.
+- Extend existing modules before creating new abstractions.
+
+## Code Style
+- Simple and readable; no over-engineering.
+- Meaningful naming; no single-letter vars except loop indices.
+- Comments only for non-obvious logic or constraints.
+- Split large components by clear responsibility.
+
+## UI and State
+- Reuse existing Tailwind patterns from nearby components.
+- Respect Zustand store boundaries; no duplicated state.
+- Incremental UI changes over broad visual rewrites.
+
+## Safety
+- Never edit `dist`, Vite temp artifacts, or cache files unless explicitly asked.
+- Preserve existing behavior unless task explicitly requires change.
+
+## Workflow: Plan -> Execute -> Review -> Update
+
+At the start of every session, first read `PROGRESS.md` to understand current project status. If the file does not exist, create it.
+
+### 1. Plan (must do before coding)
+After receiving a task, do not write code first. Output:
+- Which files will be changed, and what each file will change
+- Impact scope (whether other features may be affected)
+- Uncertainties
+After output, wait for me to say "go" before implementation. If the task is very small (single-file change under 20 lines), plan can be skipped.
+
+### 2. Execute
+- Read related files before editing, keep diff minimal.
+- If requirements are ambiguous, ask one focused question before implementation; do not guess.
+
+### 3. Review (must do after completion)
+After coding, run one self-check and report briefly:
+- Whether duplicated logic was introduced
+- Whether edge cases are handled
+- Whether style is consistent with the project
+- lint/type/build check results
+Fix found issues first, then report back.
+
+### 4. Update Progress (must do before session ends)
+Update `PROGRESS.md` at project root:
+- **Done**: What was completed in this session
+- **Issues**: Unresolved problems
+- **Next**: Suggested next steps

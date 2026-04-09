@@ -1,47 +1,56 @@
-import React, { useEffect } from 'react'
-import { motion, AnimatePresence } from 'framer-motion'
+import { useEffect } from 'react'
 
 interface ScreenShakeProps {
   trigger: boolean
   intensity?: number
   duration?: number
   onComplete?: () => void
+  targetRef?: React.RefObject<HTMLDivElement | null>
 }
 
 /**
- * 震屏效果组件
- * 用于强烈的视觉冲击（如异议时）
+ * 震屏效果 — 通过 CSS transform 直接震动目标容器
+ * targetRef 指向要震动的 DOM 节点（通常是游戏屏幕容器）
  */
 export const ScreenShake: React.FC<ScreenShakeProps> = ({
   trigger,
-  intensity = 10,
-  duration = 0.5,
+  intensity = 8,
+  duration = 0.45,
   onComplete,
+  targetRef,
 }) => {
   useEffect(() => {
-    if (trigger && onComplete) {
-      const timer = setTimeout(onComplete, duration * 1000)
-      return () => clearTimeout(timer)
-    }
-  }, [trigger, duration, onComplete])
+    if (!trigger || !targetRef?.current) return
 
-  return (
-    <AnimatePresence>
-      {trigger && (
-        <motion.div
-          className="fixed inset-0 pointer-events-none z-50"
-          initial={{ opacity: 0 }}
-          animate={{
-            x: [0, -intensity, intensity, -intensity, intensity, 0],
-            y: [0, intensity, -intensity, intensity, -intensity, 0],
-          }}
-          transition={{
-            duration,
-            times: [0, 0.2, 0.4, 0.6, 0.8, 1],
-          }}
-          exit={{ opacity: 0 }}
-        />
-      )}
-    </AnimatePresence>
-  )
+    const el = targetRef.current
+    const totalMs = duration * 1000
+    const start = performance.now()
+    let raf: number
+
+    const shake = (now: number) => {
+      const elapsed = now - start
+      const progress = Math.min(elapsed / totalMs, 1)
+      const decay = 1 - progress
+
+      const dx = (Math.random() - 0.5) * 2 * intensity * decay
+      const dy = (Math.random() - 0.5) * 2 * intensity * decay
+      el.style.transform = `translate(${dx}px, ${dy}px)`
+
+      if (progress < 1) {
+        raf = requestAnimationFrame(shake)
+      } else {
+        el.style.transform = ''
+        onComplete?.()
+      }
+    }
+
+    raf = requestAnimationFrame(shake)
+
+    return () => {
+      cancelAnimationFrame(raf)
+      el.style.transform = ''
+    }
+  }, [trigger, intensity, duration, onComplete, targetRef])
+
+  return null
 }

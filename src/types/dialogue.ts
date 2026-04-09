@@ -36,6 +36,18 @@ export type ExpressionType =
   | 'serious'    // 严肃
   | 'glasses'    // 推眼镜（LL专属）
 
+// 视觉效果类型
+export type VisualEffectType =
+  | 'screen-shake'   // 屏幕震动
+  | 'flash'          // 白色闪光
+  | 'confetti'       // 礼花/纸屑
+
+export interface VisualEffect {
+  type: VisualEffectType
+  intensity?: number   // 强度（震动幅度、闪光亮度等）
+  duration?: number    // 持续时间（秒）
+}
+
 // 对话行类型
 export interface DialogueLine {
   id: string
@@ -52,6 +64,10 @@ export interface DialogueLine {
   isTestimony?: boolean
   // 证言的矛盾点（如果有的话）
   contradictionId?: string
+  // 该对话显示时解锁的证词ID列表
+  unlockEvidence?: string[]
+  // 该对话显示时触发的视觉效果
+  effects?: VisualEffect[]
 }
 
 // 互动触发类型
@@ -59,7 +75,8 @@ export type InteractionType =
   | 'objection'           // 异议！
   | 'present-evidence'    // 出示证据
   | 'cross-examination'   // 追问
-  | 'evidence-sorting'    // 证据整理交互
+  | 'clue-finding'        // 线索寻找交互
+  | 'prototype-demo'      // 新版方案原型演示
 
 export interface InteractionTrigger {
   type: InteractionType

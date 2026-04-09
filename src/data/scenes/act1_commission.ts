@@ -75,7 +75,7 @@ const dialogues: Record<string, DialogueLine> = {
   'act1_08': {
     id: 'act1_08',
     characterId: 'likang',
-    text: '（让不会写代码的人写代码……这就好比让不会游泳的人在深水区搞花样游泳。）',
+    text: '（让不会写代码的人写代码……这命题本身就是矛盾的。）',
     expression: 'thinking',
     nextLineId: 'act1_09'
   },
@@ -115,7 +115,7 @@ const dialogues: Record<string, DialogueLine> = {
   'act1_13': {
     id: 'act1_13',
     characterId: 'likang',
-    text: '懂技术又懂业务？这种用户可太稀有了。',
+    text: '既懂技术又懂业务？这种用户很少见。',
     expression: 'surprised',
     nextLineId: 'act1_14'
   },

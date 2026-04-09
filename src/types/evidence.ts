@@ -13,6 +13,8 @@ export interface Evidence {
   type: EvidenceType
   thumbnail?: string // 缩略图URL
   imageUrl?: string // 完整图片URL
+  /** 证物卡左侧立绘：与 CharacterSprite 相同的 characterId，将使用 /assets/characters/{id}-normal.png */
+  portraitCharacterId?: string
   // 证据可以指出哪个矛盾点
   contradictionId?: string
   // 是否已解锁

@@ -82,7 +82,7 @@ const dialogues: Record<string, DialogueLine> = {
   'act4_09': {
     id: 'act4_09',
     characterId: 'likang',
-    text: '第二种是**维护者**——像业务经理小王这样，不写代码，只需要查看运行结果、检查日志、修改配置。**他甚至不应该看到代码编辑器**。',
+    text: '第二种是**维护者**——像业务经理小王这样，不写代码，主要是确认处理结果、配置回填字段，让数据准确进到表单里。真要改逻辑，他会找技术同事帮忙。**他甚至不应该看到代码编辑器**。',
     expression: 'normal',
     nextLineId: 'act4_10'
   },
@@ -300,7 +300,7 @@ const dialogues: Record<string, DialogueLine> = {
   'act4_36': {
     id: 'act4_36',
     characterId: 'likang',
-    text: '张老师，我能总结一下吗？您是**同时扮演搭建者和维护者两种角色**的用户——搭建的时候需要大编辑区写代码，维护的时候只需要看结果和改配置。而且您**直接在网页端写代码**，不会去开IDE。',
+    text: '张老师，所以您是**搭建和维护都自己做**——而且直接在网页端写代码，不开IDE。',
     expression: 'normal',
     nextLineId: 'act4_37'
   },
@@ -388,7 +388,7 @@ const dialogues: Record<string, DialogueLine> = {
   'act4_47': {
     id: 'act4_47',
     characterId: 'snow',
-    text: '（站起来补充）B方案让搭建者的测试效率显著提升，维护者的操作路径大幅缩短。两种角色的反馈都是正面的。',
+    text: '（站起来补充）B方案下，搭建者不用再来回切换就能测试；维护者进来直接就能看到结果，不用翻过代码编辑器。两种角色的反馈都是正面的。',
     expression: 'smile',
     nextLineId: 'act4_48'
   },
@@ -454,15 +454,22 @@ const dialogues: Record<string, DialogueLine> = {
     characterId: 'poet',
     text: '**设计方案，通过！**',
     expression: 'smile',
-    nextLineId: 'act4_56'
+    nextLineId: 'act4_56',
+    effects: [
+      { type: 'flash', duration: 0.35 },
+      { type: 'screen-shake', intensity: 10, duration: 0.5 },
+    ]
   },
 
   'act4_56': {
     id: 'act4_56',
     characterId: 'narrator',
-    text: '【法槌落下 —— 砰！—— 全场沸腾特效】',
+    text: '【法槌落下 —— 砰！】',
     expression: 'normal',
-    nextLineId: 'act4_57'
+    nextLineId: 'act4_57',
+    effects: [
+      { type: 'confetti', duration: 2 },
+    ]
   },
 
   'act4_57': {
@@ -510,7 +517,10 @@ const dialogues: Record<string, DialogueLine> = {
     characterId: 'narrator',
     text: '【案件逆转成功！】',
     expression: 'normal',
-    nextLineId: 'act5_start'
+    nextLineId: 'act5_start',
+    effects: [
+      { type: 'confetti', duration: 1.75 },
+    ]
   }
 }
 
