@@ -1,4 +1,5 @@
 ## Done
+- Vercel 生产部署：新增根目录 `vercel.json`（SPA 回退到 `index.html`），已通过 CLI 部署到团队项目 `portfolio`；构建 `npm run build` 在 Vercel 上通过。
 - 仓库维护：完善根目录 `.gitignore`（忽略 `node_modules`、`dist`、Vite 缓存、`.env`、`dist` 等），从 Git 中移除已误提交的 `node_modules` 与 `.claude/settings.local.json`；排除嵌套仓库目录 `claude-telegram-bot-bridge/`、`telegram_bot/`；已推送到 `origin`（GitHub）。
 - 强化第二个 prototype 中「测试运行」按钮的引导动效：按钮本体改为更明显的放大/外发光脉冲，并增加上方浮动提示标签，提升首次注意力捕捉。
 - 结尾页新增「重头游玩」按钮：仅在最终结束旁白时显示，点击后返回封面的「点击开始」页。
